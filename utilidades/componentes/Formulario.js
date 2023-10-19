@@ -13,8 +13,8 @@ import {
 import ColorP from './../Util';
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function Formulario() {
-
+export default function Formulario(props) {
+  const {setCapital, setInteres, setMes} = props;
   return (
     <View style={styles.viewForm}>
       <View style={styles.viewInputs}>
@@ -22,11 +22,13 @@ export default function Formulario() {
           placeholder="Cantidad a pedir"
           keyboardType="numeric"
           style={styles.input}
+          onChange={(e) => setCapital(e.nativeEvent.text)}
         />
         <TextInput
           placeholder="Interes %"
           keyboardType="numeric"
           style={[styles.input, styles.inputPercentage]}
+          onChange={(e)=>setInteres(e.nativeEvent.text)}
         />
 
       </View>
@@ -37,7 +39,7 @@ export default function Formulario() {
           label: 'Seleccióna los plazos...',
           value: null,
         }}
-        onValueChange={(value) => console.log(value)}
+        onValueChange={(value) => setMes(value)}
         items={[
           { label: '3 meses', value: 3 },
           { label: '6 meses', value: 6 },
