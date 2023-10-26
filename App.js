@@ -1,9 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {SafeAreaView,ScrollView, StatusBar, StyleSheet,
-  Text,useColorScheme,View,} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  SafeAreaView, ScrollView, StatusBar, StyleSheet,
+  Text, useColorScheme, View,
+} from 'react-native';
 import ColorP from './utilidades/Util';
 import Formulario from './utilidades/componentes/Formulario';
 import ResultadoCalculado from './utilidades/componentes/ResultadoCalculado';
+import Footer from './utilidades/componentes/Footer';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function App() {
   const [capital, setCapital] = useState(null);
@@ -13,16 +17,16 @@ export default function App() {
   const [errorMensaje, setErrorMensaje] = useState('');
 
   // esta pendiente del cambio de estado de las variables
-  useEffect(()=>{
-    if (capital && interes && mes){
+  useEffect(() => {
+    if (capital || interes || mes) {
       calcular();
-    }else{
-      reset();
+    } else {
+      reset()
     }
-  },[capital,interes,mes]);
+  }, [capital, interes, mes]);
 
-   // / limpia el error y el total
-   const reset = () => {
+  // / limpia el error y el total
+  const reset = () => {
     setErrorMensaje('');
     setTotal(null);
   };
@@ -30,7 +34,7 @@ export default function App() {
   // realiza el calculo del total 
   // y si hay errores determina con un texto el error
   const calcular = () => {
-    reset();
+    reset()
     if (!capital) {
       setErrorMensaje('Añade la cantidad que quieres solicitar');
     } else if (!interes) {
@@ -61,16 +65,20 @@ export default function App() {
           setMes={setMes}
         />
       </SafeAreaView>
-      <ScrollView>
-        <ResultadoCalculado
-          capital={capital}
-          interes={interes}
-          mes={mes}
-          total={total}
-          errorMensaje={errorMensaje}
-        />
+      <KeyboardAwareScrollView>
+        <View style={estilos.caja}>
+          <ResultadoCalculado
+            capital={capital}
+            interes={interes}
+            mes={mes}
+            total={total}
+            errorMensaje={errorMensaje}
+          />
+        </View>
+      </KeyboardAwareScrollView>
 
-      </ScrollView>
+
+      <Footer calculate={calcular} />
     </>
   )
 };
@@ -95,5 +103,8 @@ const estilos = StyleSheet.create({
     position: 'absolute',
     zIndex: -1,
   },
+  caja: {
+    minHeight: 400
+  }
 })
 

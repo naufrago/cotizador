@@ -13,14 +13,39 @@ import ColorP from './../Util';
 
 export default function ResultadoCalculado(props){
     const {capital,interes,mes,total,errorMensaje}= props;
-    console.log(props)
-    return (
-        <View>
-            <Text>hola desde el componente nuevo</Text>
+    
+    return (    
+        <View style={styles.content}>
+          {total && (
+            <View style={styles.boxResult}>
+              <Text style={styles.title}>RESUMEN</Text>
+              <DataResult title="Cantidad solicitada:" value={`$ ${capital}`} />
+              <DataResult title="Interes %:" value={`${interes} %`} />
+              <DataResult title="Plazos:" value={`${mes} meses`} />
+              <DataResult title="Pago mensual:" value={`$ ${total.valormensual} `} />
+              <DataResult
+                title="Total a pagar:"
+                value={`$ ${total.totalpagar} `}
+              />
+            </View>
+          )}
+          <View>
+            <Text style={styles.error}>{errorMensaje}</Text>
+          </View>
         </View>
-    )
+      );
 }
 
+function DataResult(props) {
+    const {title, value} = props;
+  
+    return (
+      <View style={styles.value}>
+        <Text>{title}</Text>
+        <Text>{value}</Text>
+      </View>
+    );
+  }
 
 const styles = StyleSheet.create({
     content: {
