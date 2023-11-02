@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView, ScrollView, StatusBar, StyleSheet,
-  Text, useColorScheme, View,
+  Text, useColorScheme, View, Alert, Button
 } from 'react-native';
 import ColorP from './utilidades/Util';
 import Formulario from './utilidades/componentes/Formulario';
 import ResultadoCalculado from './utilidades/componentes/ResultadoCalculado';
 import Footer from './utilidades/componentes/Footer';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 
 export default function App() {
   const [capital, setCapital] = useState(null);
@@ -53,6 +54,22 @@ export default function App() {
     }
   };
 
+   function botonCalcular(){
+    console.log("object");
+    calcular();
+    setTimeout(() => {
+      if (total) {
+        // Alert.alert(`el valor mensual a pagar es de $ ${total.valormensual}, y el valor total pagado al culminar los ${mes} sera de $ ${total.totalpagar} `)
+        Dialog.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: 'Resultado',
+          textBody: `el valor mensual a pagar es de $ ${total.valormensual}, y el valor total pagado al culminar los ${mes} meses sera de $ ${total.totalpagar} `,
+          button: 'Cerrar',
+        })
+      }
+    }, 1000);
+  }
+
 
   return (
     <>
@@ -74,11 +91,15 @@ export default function App() {
             total={total}
             errorMensaje={errorMensaje}
           />
+          <AlertNotificationRoot/>
         </View>
       </KeyboardAwareScrollView>
 
+      
+      
 
-      <Footer calculate={calcular} />
+        <Footer calculate={botonCalcular} /> 
+     
     </>
   )
 };
